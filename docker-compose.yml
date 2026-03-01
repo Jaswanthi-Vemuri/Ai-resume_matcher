@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  # Endee Vector Database Server Wrapper
+  endee:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.endee
+    ports:
+      - "8000:8000"
+    environment:
+      - NODE_ENV=production
+      - ENDEE_PORT=8000
+    networks:
+      - resume-matcher
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    container_name: resume-matcher-endee
+
+  # Backend API Server
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ENDEE_URL=http://endee:8000
+    depends_on:
+      endee:
+        condition: service_healthy
+    networks:
+      - resume-matcher
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    container_name: resume-matcher-backend
+
+  # Frontend Web Application
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000/api
+    depends_on:
+      - backend
+    networks:
+      - resume-matcher
+    restart: unless-stopped
+    container_name: resume-matcher-frontend
+
+networks:
+  resume-matcher:
+    driver: bridge
+
+volumes:
+  endee-data:
+    driver: local
