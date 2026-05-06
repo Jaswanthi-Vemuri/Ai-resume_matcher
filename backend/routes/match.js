@@ -96,19 +96,33 @@ router.post('/match-job', async (req, res, next) => {
  */
 router.get('/stats', async (req, res, next) => {
   try {
-    const statsResponse = await require('axios').get(
-      `${process.env.ENDEE_URL}/vectors`
-    );
+    const axios = require('axios');
+    const endeeUrl = process.env.ENDEE_URL || 'http://localhost:8000';
+    
+    try {
+      const statsResponse = await axios.get(`${endeeUrl}/vectors`, {
+        timeout: 5000, // 5 second timeout
+      });
 
-    res.json({
-      total_resumes_stored: statsResponse.data.total_vectors,
-      resumes: statsResponse.data.vectors,
-    });
+      res.json({
+        status: 'connected',
+        total_resumes_stored: statsResponse.data.total_vectors,
+        resumes: statsResponse.data.vectors,
+      });
+    } catch (endeeError) {
+      // Endee is unavailable but backend is still running
+      console.warn('Warning: Endee service unavailable:', endeeError.message);
+      res.json({
+        status: 'endee_offline',
+        total_resumes_stored: 0,
+        resumes: [],
+        warning: 'Vector database service is offline. Backend is running but matching unavailable.',
+      });
+    }
   } catch (error) {
-    console.error('Error fetching stats:', error.message);
-    next({
-      status: 500,
-      message: 'Failed to fetch statistics: ' + error.message,
+    console.error('Error in stats endpoint:', error.message);
+    res.status(500).json({
+      error: 'Failed to fetch statistics: ' + error.message,
     });
   }
 });
