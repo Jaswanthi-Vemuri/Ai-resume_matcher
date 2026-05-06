@@ -1,10 +1,10 @@
-# AI Resume Matcher 🤖
+# AI Resume Matcher 
 
 A sophisticated AI-powered resume matching system that leverages OpenAI embeddings and a high-performance vector database to intelligently match resumes against job descriptions.
 
 **Live Demo**: http://localhost:3000 (when running)
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Get Started in 5 Minutes
 
@@ -40,13 +40,8 @@ A sophisticated AI-powered resume matching system that leverages OpenAI embeddin
    - Paste a job description
    - See AI-powered match scores
 
-## 📚 Documentation
 
-- **[QUICK_START.md](QUICK_START.md)** - Fast setup guide (5 min)
-- **[SETUP_GUIDE.md](SETUP_GUIDE.md)** - Complete setup & detailed instructions
-- **[API_DOCUMENTATION.md](API_DOCUMENTATION.md)** - Full API reference with examples
-
-## 🏗️ Architecture
+## Architecture
 
 ```
 React Frontend (Port 3000)
@@ -64,9 +59,9 @@ Embeddings      (Port 8000)
 - **Database**: Endee (C++ vector database)
 - **AI**: OpenAI text-embedding-3-small
 
-## ✨ Features
 
-### ✅ Implemented
+
+### Implemented
 - Upload and store resumes with embeddings
 - Match job descriptions against stored resumes
 - Real-time similarity scoring (0-100%)
@@ -76,7 +71,7 @@ Embeddings      (Port 8000)
 - REST API with comprehensive endpoints
 - In-memory vector database (development)
 
-### 🔄 System Flow
+### System Flow
 
 ```
 1. User uploads resume
@@ -94,7 +89,7 @@ Embeddings      (Port 8000)
 7. Results displayed with match scores
 ```
 
-## 🛠️ Development
+## Development
 
 ### Prerequisites
 
@@ -153,7 +148,7 @@ cd frontend
 npm run build
 ```
 
-## 🐳 Docker Deployment
+##  Docker Deployment
 
 ### Build and Run with Docker Compose
 
@@ -222,107 +217,11 @@ ENDEE_PORT=8000
 REACT_APP_API_URL=http://localhost:5000/api
 ```
 
-## 🚨 Troubleshooting
 
-### Port Already in Use
-```bash
-# Find process on port 5000
-netstat -ano | findstr :5000  # Windows
-lsof -i :5000                  # macOS/Linux
 
-# Kill process
-taskkill /PID <PID> /F        # Windows
-kill -9 <PID>                  # macOS/Linux
-```
 
-### OpenAI API Error
-- Check API key in `backend/.env`
-- Verify account has credits
-- Check API status at https://status.openai.com
 
-### Cannot Connect to Back
-- Ensure backend is running on port 5000
-- Check `frontend/.env` has correct API URL
-- Check browser console for CORS errors
 
-### No Matches Found
-- Upload at least one resume first
-- Check backend/Endee logs for errors
-- Verify embeddings are working
-
-See [SETUP_GUIDE.md](SETUP_GUIDE.md) for detailed troubleshooting.
-
-## 📊 Performance
-
-### Embedding Costs
-- Model: text-embedding-3-small
-- Cost: ~$0.02 per 1M tokens
-- Speed: ~1-2 seconds per embedding
-
-### Search Performance
-- Algorithm: Cosine Similarity
-- Complexity: O(n×d) where n=resumes, d=dims
-- Supports: 10,000+ resumes in memory
-
-## 🔐 Security
-
-### Production Checklist
-- [ ] Enable HTTPS
-- [ ] Use environment variables for secrets
-- [ ] Add authentication (JWT)
-- [ ] Implement rate limiting
-- [ ] Add input validation
-- [ ] Enable CORS properly
-- [ ] Use production OpenAI key
-- [ ] Enable logging and monitoring
-
-## 📈 Future Enhancements
-
-- [ ] Persistent database (PostgreSQL + pgvector)
-- [ ] Batch resume upload
-- [ ] Advanced filtering (skills, experience)
-- [ ] Resume parsing (PDF, DOCX)
-- [ ] User authentication
-- [ ] Analytics dashboard
-- [ ] Resume scoring/feedback
-- [ ] Real-time notifications
-- [ ] Multi-language support
-
-## 🤝 Contributing
-
-Contributions welcomed! Please:
-1. Create a feature branch
-2. Make your changes
-3. Test thoroughly
-4. Submit a pull request
-
-## 📄 License
-
-Open source - see LICENSE file for details.
-
-## 📞 Support
-
-- 📖 Read docs: [SETUP_GUIDE.md](SETUP_GUIDE.md)
-- 🔍 Check troubleshooting section
-- 💬 Review code comments
-- 🐛 Check logs in terminal
-
-## 🎯 Key Files
-
-| File | Purpose |
-|------|---------|
-| [frontend/src/App.js](frontend/src/App.js) | Main React component |
-| [backend/server.js](backend/server.js) | Express server setup |
-| [backend/routes/match.js](backend/routes/match.js) | API endpoints |
-| [backend/services/embeddingService.js](backend/services/embeddingService.js) | OpenAI integration |
-| [backend/services/endeeService.js](backend/services/endeeService.js) | Vector DB client |
-| [backend/endee-server.js](backend/endee-server.js) | Vector DB wrapper |
-
-## 🙏 Acknowledgments
-
-- OpenAI for embeddings API
-- Endee for vector database
-- React community
 - Express.js community
 
 ---
